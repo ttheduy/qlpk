@@ -1,0 +1,509 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v15.0" nonce="sdfVPVVj"></script>
+    <style>
+        .container {
+            display: flex;
+            width: 100%;
+            padding: 4% 2%;
+            box-sizing: border-box;
+            height: 100vh;
+        }
+
+        .box {
+            flex: 1;
+            overflow: hidden;
+            transition: .5s;
+            margin: 0 2%;
+            box-shadow: 0 20px 30px rgba(0,0,0,.1);
+            line-height: 0;
+        }
+
+            .box > img {
+                width: 200%;
+                height: calc(100% - 10vh);
+                object-fit: cover;
+                transition: .5s;
+            }
+
+            .box > span {
+                font-size: 3.8vh;
+                display: block;
+                text-align: center;
+                height: 10vh;
+                line-height: 2.6;
+            }
+
+            .box:hover {
+                flex: 1 1 50%;
+            }
+
+                .box:hover > img {
+                    width: 100%;
+                    height: 100%;
+                }
+
+        .img-container {
+            position: relative;
+            width: 450px;
+            height: 350px;
+            margin: 50px auto;
+            overflow: hidden;
+        }
+
+        .more {
+            position: absolute;
+            padding-left: 10px;
+            width: 90px;
+            height: 40px;
+            background: rgba(255, 255, 255, .6);
+            color: #222;
+            letter-spacing: 1px;
+            line-height: 40px;
+            text-align: center;
+            text-shadow: 0 1px 1px #fff;
+            -webkit-transition: color .5s;
+            transition: color .5s;
+            z-index: 1;
+        }
+
+            .more:before {
+                position: absolute;
+                content: '';
+                left: 0;
+                height: 40px;
+                width: 0;
+                background: #fff;
+                border-right: 10px solid #ff5346;
+                -webkit-transition: width .3s;
+                transition: width .3s;
+                z-index: -1;
+            }
+
+        .img-container > a:hover .more,
+        .img-container > a:hover .more:before {
+            width: 90px;
+            color: #ff5346;
+        }
+        //khac body {
+            background: #f2f2f2;
+        }
+
+        .center {
+            margin: 0 auto;
+            padding: 15px;
+            width: 720px;
+        }
+
+        h1 {
+            font-family: 'Lato', sans-serif;
+            font-weight: 700;
+        }
+
+        p {
+            font-family: 'Lato', sans-serif;
+            font-weight: 300;
+        }
+
+        .row {
+            margin-top: 48px;
+        }
+
+        .description {
+            margin-top: 24px;
+        }
+
+            .description p {
+                text-align: center;
+                font-weight: 400;
+                font-size: 16px;
+            }
+
+        /*With :after */
+        figure.test {
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+            cursor: pointer;
+        }
+
+            figure.test img {
+                width: 100%;
+                height: 100%;
+            }
+
+            figure.test figcaption {
+                position: absolute;
+                top: 50%;
+                left: 22.5%;
+                right: 22.5%;
+                width: 200px;
+                opacity: 0;
+                z-index: 1;
+                transition: all 0.8s ease-out;
+                transition-delay: 0.2s;
+            }
+
+            figure.test:after {
+                display: inline-block;
+                position: absolute;
+                content: "";
+                top: 7%;
+                left: 10%;
+                right: 10%;
+                bottom: 7%;
+                background: white;
+                opacity: 0;
+                transition: all 0.8s ease-out;
+            }
+
+            figure.test:hover:after {
+                opacity: 0.9;
+            }
+
+            figure.test:hover figcaption {
+                transform: translateY(-50%);
+                opacity: 1;
+            }
+
+        #rotate {
+            perspective: 500px;
+        }
+
+            #rotate:after {
+                transform: rotateX(90deg);
+                transition: all 0.6s ease-in-out;
+            }
+
+            #rotate:hover:after {
+                transform: rotateX(0deg);
+            }
+
+            #rotate figcaption {
+                transition: all 0.6s ease-in-out;
+                transform: translateY(-50%) rotateX(90deg);
+            }
+
+            #rotate:hover figcaption {
+                transform: translateY(-50%) rotateX(0);
+            }
+
+        /*Without :after*/
+        .frame {
+            text-align: center;
+            position: relative;
+            cursor: pointer;
+            perspective: 500px;
+        }
+
+            .frame img {
+                width: 100%;
+                height: 100%;
+            }
+
+            .frame .details {
+                width: 75%;
+                height: 80%;
+                padding: 5% 10%;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%) rotateY(90deg);
+                transform-origin: 50%;
+                background: rgba(255,255,255,0.9);
+                opacity: 0;
+                transition: all 0.4s ease-in;
+            }
+
+            .frame:hover .details {
+                transform: translate(-50%, -50%) rotateY(0deg);
+                opacity: 1;
+            }
+
+            /*Effect without Perspective*/
+            .frame#wth {
+                perspective: none;
+            }
+
+        //nut tro len body {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 20px;
+        }
+
+        #myBtn {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 30px;
+            z-index: 99;
+            font-size: 18px;
+            border: none;
+            outline: none;
+            background-color: red;
+            color: white;
+            cursor: pointer;
+            padding: 15px;
+            border-radius: 4px;
+        }
+
+            #myBtn:hover {
+                background-color: #555;
+            }
+        
+            // so dien thoai
+
+
+          </style>
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    
+</head>
+
+<body>  
+    
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success" style="font-family:Arial">
+        <div class="container-fluid">
+            <a href="/home/index" class="navbar-brand" style="font-family:Brush Script MT">TTD.com</a>
+            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="navbar-nav">
+                    <a href="/home/GioiThieu" class="nav-item nav-link"><b>GIỚI THIỆU</b></a>
+                    <a href="/home/ChuyenNganhVaDichVu" class="nav-item nav-link"><b>CHUYÊN NGÀNH - DỊCH VỤ</b></a>
+                    <a href="/home/BacSi" class="nav-item nav-link"><b>BÁC SĨ</b></a>
+                    <a href="/home/NhiKhoa" class="nav-item nav-link"><b>NHI KHOA</b></a>
+                    <a href="/home/SieuAm" class="nav-item nav-link"><b>SIÊU ÂM</b></a>
+                    <a href="/home/ChupXQuang" class="nav-item nav-link"><b>CHỤP X QUANG</b></a>
+                    <a href="/home/HeThongPK" class="nav-item nav-link"><b>HỆ THỐNG PHÒNG KHÁM</b></a>
+                </div>
+                <div class="navbar-nav ms-auto">
+                    <a href="/home/HoTroTV" class="nav-item nav-link"><b>HỖ TRỢ TƯ VẤN</b></a>
+                    
+
+                </div>
+            </div>
+        </div>
+    </nav>
+    <marquee><h5 class="text-danger">Phòng khám TTD là đơn vị đầu tiên cung cấp dịch vụ dành riêng cho nhi khoa, với hệ thống phòng khám quy mô lớn nhất TP. HCM.</h5></marquee>
+    @*<div class="container">*@
+        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="https://dakhoa.hungyenweb.com/wp-content/uploads/2018/06/banner-phong-kham-da-khoa-2.jpg" class="d-block w-100" width="400" height="350">
+                </div>
+                <div class="carousel-item">
+                    <img src="https://tiemchunggianguyen.com.vn/wp-content/uploads/2021/03/banner-tchung.jpg" class="d-block w-100" width="400" height="350">
+                </div>
+                <div class="carousel-item">
+                    <img src="https://phongkhamsankhoacaugiay.com/wp-content/uploads/2022/03/phong-kham-thien-hoa-uu-dai.jpg" class="d-block w-100" width="400" height="350">
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+
+    @*</div>*@
+    
+    <div class="row g-0 bg-light position-relative">
+        <div class="col-md-6 mb-md-0 p-md-4">
+            <img src="https://cdn.benhvienthucuc.vn/wp-content/uploads/2019/06/IMG_6512.jpg" class="w-100" width="50" height="400">
+            
+        </div>
+        <div class="col-md-6 p-4 ps-md-0 text-dark">
+            <h5 id="gioithieu" class="mt-0 text-primary" style="font-size:40px">GIỚI THIỆU VỀ PHÒNG KHÁM TTD</h5>
+            <p style="font-size:18px ">Hệ Thống Phòng Khám TTD cung cấp dịch vụ nhi khoa toàn diện bao gồm: khám bệnh (khám tổng quát và khám chuyên khoa); dịch vụ xét nghiệm, tiêm ngừa; tư vấn dinh dưỡng, theo dõi sự tăng trưởng và phát triển của trẻ từ sơ sinh, nhũ nhi đến độ tuổi nhi đồng, thiếu niên.
+                
+            <br/>Khi khám chữa bệnh cho bé tại Hệ Thống Phòng Khám TTD, các bác sĩ sẽ trực tiếp tư vấn các bài kiểm tra tổng quát, giải thích cặn kẽ kết quả xét nghiệm, chẩn đoán và có những can thiệp y học cần thiết cho bé. Giúp ba mẹ hiểu rõ tình trạng bệnh và cách điều trị để bố mẹ có thể chăm sóc bé một cách tốt nhất.
+                
+            <br />Dịch vụ chăm sóc sức khỏe tận tình và chu đáo.
+            <br />Đội ngũ Bác sĩ chuyên khoa giàu kinh nghiệm đến từ Bệnh viện Nhi đồng 1, 2 và Thành Phố.
+            <br />Hệ thống cơ sở vật chất hiện đại theo tiêu chuẩn Quốc tế.
+            </p>
+            
+        </div>
+    </div>
+    @*<div class="container-fluid ">*@
+        <div class="p-5 my-4 bg-light rounded-3 text-primary">
+            <img src="https://hn.medcare.vn/wp-content/uploads/sites/4/2022/03/Banner-hang-muc-tiem-chung-2048x693.jpg" class="w-100" width="80" height="450">
+            <h1 class="text-primary">GIỚI THIỆU VỀ NHI KHOA </h1>
+            <p class="lead text-black" style="font-size:18px">
+                Hệ thống phòng khám TTD cung cấp đầy đủ các loại vaccine, các loại thuốc, các dịch vụ dành cho trẻ em từ 0 -15 tuổi.
+
+                Phòng khám TTD là đơn vị đầu tiên cung cấp dịch vụ dành riêng cho nhi khoa, với hệ thống phòng khám quy mô lớn nhất TP. HCM.
+            </p>
+            <p><a href="/home/TiemChung" target="_blank" class="btn btn-success btn-lg">Xem tiếp..</a></p>
+        </div>
+
+        <div id="bacsi" class="p-5 my-4 bg-primary rounded-3 text-light">
+
+            <div class="container">
+                <div class="box">
+                    <img src="https://img.medlatec.vn/ImagePath/imagesDoctor/20191203/20191203_bac%20si.png">
+                    <span>Nguyễn Thạch Thảo</span>
+                </div>
+                <div class="box">
+                    <img src="https://watermark.lovepik.com/photo/20211201/large/lovepik-male-doctor-image-picture_501367339.jpg">
+                    <span>Lê Quốc Hùng</span>
+                </div>
+                <div class="box">
+                    <img src="https://mathanoi2.vn/images/doctor/bac-si-le-phuong-thao1.jpg">
+
+                    <span>Lê Thị Phương Thảo</span>
+                </div>
+                <div class="box">
+                    <img src="https://benhvien22-12.com/wp-content/uploads/2022/06/daa486b9c8b70be952a6.jpg">
+                    <span>Bùi Đặng Hồng Ngọc</span>
+                </div>
+            </div>
+            <h1 class="text-light">ĐỘI NGŨ BÁC SĨ CỦA CHÚNG TÔI</h1>
+            <p class="lead" style="font-size:18px">Đội ngũ bác sĩ chuyên khoa nhi giàu kinh nghiệm với thâm niên trung bình từ 7 năm. Các Bác sĩ đều đã và đang trực tiếp làm việc và khám bệnh tại các chuyên khoa của Bệnh viên Nhi Đồng 1, 2 và Thành Phố. Tinh thần yêu thương và chăm sóc bệnh nhi luôn là tiêu chí hàng đầu của đội ngũ Bác sĩ 315.</p>
+            <p><a href="/home/BacSi" target="_blank" class="btn btn-success btn-lg">Xem tiếp..</a></p>
+        </div>
+        
+        <div class="row" >
+            <div class="col-md-4 ">
+                <img src="https://bachahospital.com/uploads/1642169728475-bac-si-khoa-c%C4%91ha.png" class="w-100" width="50" height="500">
+                <h2 class="text-primary">CHUYÊN NGÀNH - DỊCH VỤ</h2>
+                <p>Các gói chuyên ngành-dịch vụ khám bệnh luôn được đặt ưu tiên hàng đầu về chất lượng.</p>
+                <p><a href="/home/ChuyenNganhVaDichVu" target="_blank" class="btn btn-success">Xem tiếp &raquo;</a></p>
+            </div>
+            <div class="col-md-4 ">
+                <img src="https://www.hoanmythuduc.com/upload/hoanmythuduc.com/images/Khoa%20S%E1%BA%A3n/18b4a81e289de2c3bb8c.jpg" class="w-100" width="50" height="500">
+                <h2 class="text-primary">SIÊU ÂM</h2>
+                <p>Phụ sản cũng là một ngành thế mạnh của phòng khám TTD với nhiều bác sĩ có nhiều kinh nghiệm đang làm việc tại đây.</p>
+                <p><a href="/home/SieuAm" target="_blank" class="btn btn-success">Xem tiếp &raquo;</a></p>
+            </div>
+            <div class="col-md-4 ">
+                <img src="https://baocantho.com.vn/image/fckeditor/upload/2018/20180626/images/kienquoc2.jpg" class="w-100" width="50" height="500">
+                <h2 class="text-primary">CHỤP X QUANG</h2>
+                <p>Tổng hợp lại các địa chỉ phòng khám để cho phụ huynh tham khảo và tìm được địa chỉ phòng khám gần nhà.</p>
+                <p><a href="/home/ChupXQuang" target="_blank" class="btn btn-success">Xem tiếp &raquo;</a></p>
+            </div>
+        </div>
+            
+            <div class="p-5 my-4 bg-light rounded-3">
+                <h1>CÂU HỎI THƯỜNG GẶP</h1>
+                <p class="lead">
+                    <div class="accordion accordion-flush" id="accordionFlushExample">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="flush-headingOne">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                                    Chi phí khám bệnh tại phòng khám TTD là bao nhiêu?
+                                </button>
+                            </h2>
+                            <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">Chi phí cho 1 lần khám bệnh là 200.000đ/lần (không bao gồm thuốc) và miễn phí khám bệnh cho lần tái khám kế tiếp theo chỉ định của Bác Sĩ.</div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="flush-headingTwo">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                                    Phòng khám TTD có những dịch vụ gì?
+                                </button>
+                            </h2>
+                            <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">Quý Phụ Huynh vui lòng tham khảo thêm tại mục CÁC GÓI KHÁM BỆNH ở trên. Ngoài ra, Hệ thống Phòng khám TTD cũng có dịch vụ xét nghiệm và quầy thuốc trong khuôn viên của phòng khám.</div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="flush-headingThree">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+                                    Quy trình khám bệnh tại phòng khám TTD?
+                                </button>
+                            </h2>
+                            <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">Quý Phụ Huynh đưa bé đến Phòng khám, lấy số thứ tự chờ tới lượt khám (hoặc gọi tới Hotline để đặt lịch khám). Sau khi khám bệnh, bé sẽ được các điều dưỡng trực tiếp tư vấn chăm sóc sức khỏe, dinh dưỡng và tái khám theo chỉ định của Bác Sĩ.</div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </p>
+
+            </div>
+        
+            <hr>
+            <footer>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p>
+                            <h4>HỆ THỐNG PHÒNG KHÁM TTD</h4>
+                            <br /> Phòng khám TTD luôn luôn sẵn sàng phục vụ khách hàng tận tâm. Lấy uy tín lên hàng đầu.
+                            <br />
+                            ĐỊA CHỈ: 140 Lê Trọng Tấn, phường Tây Thạnh, quận Tân Phú, Thành phố Hồ Chí Minh
+                            <br />
+                            HOTLINE: 090.090.0909
+                            <br />
+                            EMAIL: ttd2001@gmail.com
+                        </p>
+                     
+                    </div>
+                    <div class="zalo-chat-widget" data-oaid="1594015000153980987" data-welcome-message="Rất vui khi được hỗ trợ bạn!" data-autopopup="0" data-width="" data-height=""></div>
+
+                    <script src="https://sp.zalo.me/plugins/sdk.js"></script>
+                    <div class="col-md-6">
+                        @*<a href="#" class="text-dark">Bản đồ</a>*@
+                       
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3919.0581139273195!2d106.62755585055223!3d10.806861137845743!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752be27d8b4f4d%3A0x92dcba2950430867!2zVHLGsOG7nW5nIMSQ4bqhaSBo4buNYyBDw7RuZyBuZ2hp4buHcCBUaOG7sWMgcGjhuqltIFRQLkhDTQ!5e0!3m2!1svi!2s!4v1668506727642!5m2!1svi!2s" width="300" height="200" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        @*<span class="text-muted mx-2">|</span>
+                        <a href="#" class="text-dark">Lịch sử</a>*@
+                        <div class="fb-page" data-href="https://www.facebook.com/profile.php?id=100088049042486" data-tabs="timeline" data-width="300" data-height="200" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/profile.php?id=100088049042486" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/profile.php?id=100088049042486">Phòng khám Nhi khoa</a></blockquote></div>
+                    </div>
+                </div>
+                
+            </footer>
+        <button onclick="topFunction()" id="myBtn" title="Go to top">↑</button>
+
+        <script>
+            // Get the button
+            let mybutton = document.getElementById("myBtn");
+
+            // When the user scrolls down 20px from the top of the document, show the button
+            window.onscroll = function () { scrollFunction() };
+
+            function scrollFunction() {
+                if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                    mybutton.style.display = "block";
+                } else {
+                    mybutton.style.display = "none";
+                }
+            }
+
+            // When the user clicks on the button, scroll to the top of the document
+            function topFunction() {
+                document.body.scrollTop = 0;
+                document.documentElement.scrollTop = 0;
+            }
+        </script>
+           
+
+
+
+        </div>
+
+    <div>
+        @RenderBody()
+    </div>
+
+</body>
+</html>

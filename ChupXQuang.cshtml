@@ -1,0 +1,755 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v15.0" nonce="sdfVPVVj"></script>
+    <style>
+        .container {
+            display: flex;
+            width: 100%;
+            padding: 4% 2%;
+            box-sizing: border-box;
+            height: 100vh;
+        }
+
+        .box {
+            flex: 1;
+            overflow: hidden;
+            transition: .5s;
+            margin: 0 2%;
+            box-shadow: 0 20px 30px rgba(0,0,0,.1);
+            line-height: 0;
+        }
+
+            .box > img {
+                width: 200%;
+                height: calc(100% - 10vh);
+                object-fit: cover;
+                transition: .5s;
+            }
+
+            .box > span {
+                font-size: 3.8vh;
+                display: block;
+                text-align: center;
+                height: 10vh;
+                line-height: 2.6;
+            }
+
+            .box:hover {
+                flex: 1 1 50%;
+            }
+
+                .box:hover > img {
+                    width: 100%;
+                    height: 100%;
+                }
+
+        .img-container {
+            position: relative;
+            width: 450px;
+            height: 350px;
+            margin: 50px auto;
+            overflow: hidden;
+        }
+
+        .more {
+            position: absolute;
+            padding-left: 10px;
+            width: 90px;
+            height: 40px;
+            background: rgba(255, 255, 255, .6);
+            color: #222;
+            letter-spacing: 1px;
+            line-height: 40px;
+            text-align: center;
+            text-shadow: 0 1px 1px #fff;
+            -webkit-transition: color .5s;
+            transition: color .5s;
+            z-index: 1;
+        }
+
+            .more:before {
+                position: absolute;
+                content: '';
+                left: 0;
+                height: 40px;
+                width: 0;
+                background: #fff;
+                border-right: 10px solid #ff5346;
+                -webkit-transition: width .3s;
+                transition: width .3s;
+                z-index: -1;
+            }
+
+        .img-container > a:hover .more,
+        .img-container > a:hover .more:before {
+            width: 90px;
+            color: #ff5346;
+        }
+
+        //khac body {
+            background: #f2f2f2;
+        }
+
+        .center {
+            margin: 0 auto;
+            padding: 15px;
+            width: 720px;
+        }
+
+        h1 {
+            font-family: 'Lato', sans-serif;
+            font-weight: 700;
+        }
+
+        p {
+            font-family: 'Lato', sans-serif;
+            font-weight: 300;
+        }
+
+        .row {
+            margin-top: 48px;
+        }
+
+        .description {
+            margin-top: 24px;
+        }
+
+            .description p {
+                text-align: center;
+                font-weight: 400;
+                font-size: 16px;
+            }
+
+        /*With :after */
+        figure.test {
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+            cursor: pointer;
+        }
+
+            figure.test img {
+                width: 100%;
+                height: 100%;
+            }
+
+            figure.test figcaption {
+                position: absolute;
+                top: 50%;
+                left: 22.5%;
+                right: 22.5%;
+                width: 200px;
+                opacity: 0;
+                z-index: 1;
+                transition: all 0.8s ease-out;
+                transition-delay: 0.2s;
+            }
+
+            figure.test:after {
+                display: inline-block;
+                position: absolute;
+                content: "";
+                top: 7%;
+                left: 10%;
+                right: 10%;
+                bottom: 7%;
+                background: white;
+                opacity: 0;
+                transition: all 0.8s ease-out;
+            }
+
+            figure.test:hover:after {
+                opacity: 0.9;
+            }
+
+            figure.test:hover figcaption {
+                transform: translateY(-50%);
+                opacity: 1;
+            }
+
+        #rotate {
+            perspective: 500px;
+        }
+
+            #rotate:after {
+                transform: rotateX(90deg);
+                transition: all 0.6s ease-in-out;
+            }
+
+            #rotate:hover:after {
+                transform: rotateX(0deg);
+            }
+
+            #rotate figcaption {
+                transition: all 0.6s ease-in-out;
+                transform: translateY(-50%) rotateX(90deg);
+            }
+
+            #rotate:hover figcaption {
+                transform: translateY(-50%) rotateX(0);
+            }
+
+        /*Without :after*/
+        .frame {
+            text-align: center;
+            position: relative;
+            cursor: pointer;
+            perspective: 500px;
+        }
+
+            .frame img {
+                width: 100%;
+                height: 100%;
+            }
+
+            .frame .details {
+                width: 75%;
+                height: 80%;
+                padding: 5% 10%;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%) rotateY(90deg);
+                transform-origin: 50%;
+                background: rgba(255,255,255,0.9);
+                opacity: 0;
+                transition: all 0.4s ease-in;
+            }
+
+            .frame:hover .details {
+                transform: translate(-50%, -50%) rotateY(0deg);
+                opacity: 1;
+            }
+
+            /*Effect without Perspective*/
+            .frame#wth {
+                perspective: none;
+            }
+
+        //nut tro len body {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 20px;
+        }
+
+        #myBtn {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 30px;
+            z-index: 99;
+            font-size: 18px;
+            border: none;
+            outline: none;
+            background-color: red;
+            color: white;
+            cursor: pointer;
+            padding: 15px;
+            border-radius: 4px;
+        }
+
+            #myBtn:hover {
+                background-color: #555;
+            }
+
+        div.a {
+            text-align: center;
+        }
+
+        //hhhhhhhhhhhhhhhhhhhhhhhhhhhhhh html {
+            background: gray;
+            font-family: 'Open Sans',sans-serif;
+        }
+
+        p.intro {
+            background: white;
+            font-size: 1.5em;
+            padding: 1em;
+        }
+
+        .card-deck {
+            display: flex;
+            -webkit-box-orient: horizontal;
+            -webkit-box-direction: normal;
+        }
+
+            .card-deck .card {
+                margin-right: 10px;
+                margin-bottom: 10px;
+            }
+
+        .card {
+            flex: 1 1 250px;
+            max-width: 300px;
+            background: white;
+            border: 0;
+            box-shadow: 2px 10px 28px -2px rgba(0, 0, 0, 0.125), 0 1px 2px rgba(0, 0, 0, 0.02);
+            transition: all 0.5s;
+        }
+
+            .card:hover {
+                box-shadow: 2px 30px 28px -2px rgba(0, 0, 0, 0.125);
+                transform: translate3d(0, -10px, 0);
+            }
+
+            .card a {
+                position: relative;
+            }
+
+            .card .card-title {
+                margin-top: 0;
+                transition: all 250ms cubic-bezier(0.445, 0.05, 0.55, 0.95);
+                font-size: 16px;
+            }
+
+                .card .card-title a {
+                    color: black;
+                    text-decoration: none;
+                }
+
+                    .card .card-title a:hover {
+                        color: #fc0;
+                    }
+
+            .card .card-block {
+                border-style: solid;
+                border-color: rgba(0, 0, 0, 0.075);
+                border-width: 0 1px 1px 1px;
+                font-size: 14px;
+            }
+
+        .card-block {
+            -webkit-box-flex: 1;
+            -ms-flex: 1 1 auto;
+            flex: 1 1 auto;
+            padding: 1.25rem;
+        }
+
+        .card .card-block-anchorable {
+        }
+
+        .card .card-bottom-anchor {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            padding: 1.25rem;
+        }
+
+        .card .thumbnail-outer {
+            position: relative;
+        }
+
+        .thumbnail {
+            overflow: hidden;
+            position: relative;
+            outline: 0;
+            box-sizing: content-box;
+        }
+
+            .thumbnail::before {
+                content: "";
+                display: block;
+                padding-top: 100%;
+            }
+
+            .thumbnail .thumbnail-frame {
+                overflow: hidden;
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                outline: 0;
+            }
+
+            .thumbnail .centered {
+                position: absolute;
+                -webkit-transform: translate(50%,50%);
+                -moz-transform: translate(50%,50%);
+                -ms-transform: translate(50%,50%);
+                -o-transform: translate(50%,50%);
+                transform: translate(50%,50%);
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                box-sizing: content-box;
+                outline: 0;
+                display: block;
+            }
+
+            .thumbnail img {
+                position: absolute;
+                -webkit-transform: translate(-50%,-50%);
+                -moz-transform: translate(-50%,-50%);
+                -ms-transform: translate(-50%,-50%);
+                -o-transform: translate(-50%,-50%);
+                transform: translate(-50%,-50%);
+                top: 0;
+                left: 0;
+                height: 100%;
+            }
+
+        .ribbon {
+            position: absolute;
+            padding: 0.1em 3em;
+            font-size: 1em;
+            font-weight: bold;
+            right: 0;
+            bottom: 1em;
+            line-height: 1.875em;
+            color: black;
+            background: gold;
+            box-shadow: -1px 2px 3px rgba(0,0,0,0.5);
+        }
+
+            .ribbon:before, .ribbon:after {
+                position: absolute;
+                content: '';
+                display: block;
+            }
+
+            .ribbon:before {
+                width: 0.5em;
+                height: 2.05em;
+                padding: 0 0 0.5em;
+                top: 0;
+                right: -0.5em;
+                background: gold;
+                border-radius: 0 0 0.5em 0;
+            }
+
+            .ribbon:after {
+                width: 0.4em;
+                height: 0.4em;
+                background: rgba(0,0,0,0.5);
+                bottom: -0.4em;
+                right: -0.4em;
+                border-radius: 0 0 0.4em 0;
+                box-shadow: inset -1px 2px 2px rgba(0,0,0,0.3);
+            }
+
+        //hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh body {
+            background: #fafafa url(https://jackrugile.com/images/misc/noise-diagonal.png);
+            color: #444;
+            font: 100%/30px 'Helvetica Neue', helvetica, arial, sans-serif;
+            text-shadow: 0 1px 0 #fff;
+        }
+
+        strong {
+            font-weight: bold;
+        }
+
+        em {
+            font-style: italic;
+        }
+
+        table {
+            background: #f5f5f5;
+            border-collapse: separate;
+            box-shadow: inset 0 1px 0 #fff;
+            font-size: 12px;
+            line-height: 24px;
+            margin: 30px auto;
+            text-align: left;
+            width: 1200px;
+        }
+
+        th {
+            background: url(https://jackrugile.com/images/misc/noise-diagonal.png), linear-gradient(#777, #444);
+            border-left: 1px solid #555;
+            border-right: 1px solid #777;
+            border-top: 1px solid #555;
+            border-bottom: 1px solid #333;
+            box-shadow: inset 0 1px 0 #999;
+            color: #fff;
+            font-weight: bold;
+            padding: 10px 15px;
+            position: relative;
+            text-shadow: 0 1px 0 #000;
+        }
+
+            th:after {
+                background: linear-gradient(rgba(255,255,255,0), rgba(255,255,255,.08));
+                content: '';
+                display: block;
+                height: 25%;
+                left: 0;
+                margin: 1px 0 0 0;
+                position: absolute;
+                top: 25%;
+                width: 100%;
+            }
+
+            th:first-child {
+                border-left: 1px solid #777;
+                box-shadow: inset 1px 1px 0 #999;
+            }
+
+            th:last-child {
+                box-shadow: inset -1px 1px 0 #999;
+            }
+
+        td {
+            border-right: 1px solid #fff;
+            border-left: 1px solid #e8e8e8;
+            border-top: 1px solid #fff;
+            border-bottom: 1px solid #e8e8e8;
+            padding: 10px 15px;
+            position: relative;
+            transition: all 300ms;
+        }
+
+            td:first-child {
+                box-shadow: inset 1px 0 0 #fff;
+            }
+
+            td:last-child {
+                border-right: 1px solid #e8e8e8;
+                box-shadow: inset -1px 0 0 #fff;
+            }
+
+        tr {
+            background: url(https://jackrugile.com/images/misc/noise-diagonal.png);
+        }
+
+            tr:nth-child(odd) td {
+                background: #f1f1f1 url(https://jackrugile.com/images/misc/noise-diagonal.png);
+            }
+
+            tr:last-of-type td {
+                box-shadow: inset 0 -1px 0 #fff;
+            }
+
+                tr:last-of-type td:first-child {
+                    box-shadow: inset 1px -1px 0 #fff;
+                }
+
+                tr:last-of-type td:last-child {
+                    box-shadow: inset -1px -1px 0 #fff;
+                }
+
+        tbody:hover td {
+            color: transparent;
+            text-shadow: 0 0 3px #aaa;
+        }
+
+        tbody:hover tr:hover td {
+            color: #444;
+            text-shadow: 0 1px 0 #fff;
+        }
+    </style>
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success" style="font-family:Arial">
+        <div class="container-fluid">
+            <a href="/home/index" class="navbar-brand" style="font-family:Brush Script MT">TTD.com</a>
+            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="navbar-nav">
+                    <a href="/home/GioiThieu" class="nav-item nav-link"><b>GIỚI THIỆU</b></a>
+                    <a href="/home/ChuyenNganhVaDichVu" class="nav-item nav-link"><b>CHUYÊN NGÀNH - DỊCH VỤ</b></a>
+                    <a href="/home/BacSi" class="nav-item nav-link"><b>BÁC SĨ</b></a>
+                    <a href="/home/NhiKhoa" class="nav-item nav-link"><b>NHI KHOA</b></a>
+                    <a href="/home/SieuAm" class="nav-item nav-link"><b>SIÊU ÂM</b></a>
+                    <a href="/home/ChupXQuang" class="nav-item nav-link"><b>CHỤP X QUANG</b></a>
+                    <a href="/home/HeThongPK" class="nav-item nav-link"><b>HỆ THỐNG PHÒNG KHÁM</b></a>
+                </div>
+                <div class="navbar-nav ms-auto">
+                    <a href="/home/HoTroTV" class="nav-item nav-link"><b>HỖ TRỢ TƯ VẤN</b></a>
+
+
+                </div>
+            </div>
+        </div>
+    </nav>
+    <marquee><h5 class="text-danger">Phòng khám TTD là đơn vị đầu tiên cung cấp dịch vụ dành riêng cho nhi khoa, với hệ thống phòng khám quy mô lớn nhất TP. HCM.</h5></marquee>
+    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="https://inhat.vn/wp-content/uploads/2021/12/chup-x-quang-vung-tau-6-min.jpg" class="d-block w-100" width="400" height="350">
+            </div>
+            <div class="carousel-item">
+                <img src="https://inhat.vn/wp-content/uploads/2021/12/chup-x-quang-vung-tau-6-min.jpg" class="d-block w-100" width="400" height="350">
+            </div>
+            <div class="carousel-item">
+                <img src="https://inhat.vn/wp-content/uploads/2021/12/chup-x-quang-vung-tau-6-min.jpg" class="d-block w-100" width="400" height="350">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+    <div class="row g-0 bg-light position-relative">
+        <div class="col-md-6 mb-md-0 p-md-4">
+            <img src="https://skhcn.hatinh.gov.vn/khcn/static/uploads/images_download/anhdong.gif" class="w-100" width="50" height="400">
+
+        </div>
+        <div class="col-md-6 p-4 ps-md-0 text-dark">
+            <h5 id="gioithieu" class="mt-0 text-primary" style="font-size:40px">GIỚI THIỆU CHỤP X QUANG TTD</h5>
+            <p style="font-size:18px ">
+                Chụp X-quang là chỉ định cần thiết trong chẩn đoán nhiều bệnh, đặc biệt là các bệnh liên quan đến xương khớp, hô hấp, tim mạch.
+
+                <br />Kỹ thuật chụp X-quang cần được thực hiện trong điều kiện an toàn, đảm bảo và đủ tiêu chuẩn. Các bác sĩ chẩn đoán hình ảnh sẽ phân tích hình ảnh và gửi kết quả đến bác sĩ đã chỉ định chụp X-quang.
+            </p>
+
+        </div>
+    </div>
+
+    <div class="a">
+        <h1>PHÍ DỊCH VỤ</h1>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>TÊN DỊCH VỤ</th>
+                <th>PHÍ DỊCH VỤ</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>1</strong></td>
+                <td>Chụp x quang xương cảng chân thẳng</td>
+                <td>230.000</td>
+            </tr>
+            <tr>
+                <td><strong>2</strong></td>
+                <td>Chụp x quang xương ức thẳng, nghiêng</td>
+                <td>300.000</td>
+            </tr>
+            <tr>
+                <td><strong>3</strong></td>
+                <td>Chụp x quang đỉnh phổi ưỡn</td>
+                <td>350.000</td>
+            </tr>
+            <tr>
+                <td><strong>4</strong></td>
+                <td>Chụp x quang mỏm trâm</td>
+                <td>350.000</td>
+            </tr>
+            <tr>
+                <td><strong>5</strong></td>
+                <td>Chụp x quang cột sống</td>
+                <td>220.000</td>
+            </tr>
+            <tr>
+                <td><strong>6</strong></td>
+                <td>Chụp x quang cánh tay</td>
+                <td>330.000</td>
+            </tr>
+            <tr>
+                <td><strong>7</strong></td>
+                <td>Chụp x quang khớp háng</td>
+                <td>500.000</td>
+
+            </tr>
+            <tr>
+                <td><strong>8</strong></td>
+                <td>Chụp x quang xương đùi</td>
+                <td>550.000</td>
+            </tr>
+            <tr>
+                <td><strong>9</strong></td>
+                <td>Chụp x quang khớp gối</td>
+                <td>650.000</td>
+            </tr>
+
+        </tbody>
+    </table>
+
+    <div class="a">
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/kBx2PqUIlmI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+
+    <hr>
+    <footer>
+        <div class="row">
+            <div class="col-md-6">
+                <p>
+                    <h4>HỆ THỐNG PHÒNG KHÁM TTD</h4>
+                    <br /> Phòng khám TTD luôn luôn sẵn sàng phục vụ khách hàng tận tâm. Lấy uy tín lên hàng đầu.
+                    <br />
+                    ĐỊA CHỈ: 140 Lê Trọng Tấn, phường Tây Thạnh, quận Tân Phú, Thành phố Hồ Chí Minh
+                    <br />
+                    HOTLINE: 090.090.0909
+                    <br />
+                    EMAIL: ttd2001@gmail.com
+                </p>
+
+            </div>
+            <div class="zalo-chat-widget" data-oaid="1594015000153980987" data-welcome-message="Rất vui khi được hỗ trợ bạn!" data-autopopup="0" data-width="" data-height=""></div>
+
+            <script src="https://sp.zalo.me/plugins/sdk.js"></script>
+            <div class="col-md-6">
+                @*<a href="#" class="text-dark">Bản đồ</a>*@
+
+                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3919.0581139273195!2d106.62755585055223!3d10.806861137845743!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752be27d8b4f4d%3A0x92dcba2950430867!2zVHLGsOG7nW5nIMSQ4bqhaSBo4buNYyBDw7RuZyBuZ2hp4buHcCBUaOG7sWMgcGjhuqltIFRQLkhDTQ!5e0!3m2!1svi!2s!4v1668506727642!5m2!1svi!2s" width="300" height="200" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                @*<span class="text-muted mx-2">|</span>
+                    <a href="#" class="text-dark">Lịch sử</a>*@
+                <div class="fb-page" data-href="https://www.facebook.com/profile.php?id=100088049042486" data-tabs="timeline" data-width="300" data-height="200" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/profile.php?id=100088049042486" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/profile.php?id=100088049042486">Phòng khám Nhi khoa</a></blockquote></div>
+            </div>
+        </div>
+
+    </footer>
+    <button onclick="topFunction()" id="myBtn" title="Go to top">↑</button>
+
+    <script>
+        // Get the button
+        let mybutton = document.getElementById("myBtn");
+
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function () { scrollFunction() };
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                mybutton.style.display = "block";
+            } else {
+                mybutton.style.display = "none";
+            }
+        }
+
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+    </script>
+
+
+
+
+    </div>
+
+    <div>
+        @*@RenderBody()*@
+    </div>
+
+</body>
+</html>
+
+

@@ -1,0 +1,541 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v15.0" nonce="sdfVPVVj"></script>
+    <style>
+        .container {
+            display: flex;
+            width: 100%;
+            padding: 4% 2%;
+            box-sizing: border-box;
+            height: 100vh;
+        }
+
+        .box {
+            flex: 1;
+            overflow: hidden;
+            transition: .5s;
+            margin: 0 2%;
+            box-shadow: 0 20px 30px rgba(0,0,0,.1);
+            line-height: 0;
+        }
+
+            .box > img {
+                width: 200%;
+                height: calc(100% - 10vh);
+                object-fit: cover;
+                transition: .5s;
+            }
+
+            .box > span {
+                font-size: 3.8vh;
+                display: block;
+                text-align: center;
+                height: 10vh;
+                line-height: 2.6;
+            }
+
+            .box:hover {
+                flex: 1 1 50%;
+            }
+
+                .box:hover > img {
+                    width: 100%;
+                    height: 100%;
+                }
+
+        .img-container {
+            position: relative;
+            width: 450px;
+            height: 350px;
+            margin: 50px auto;
+            overflow: hidden;
+        }
+
+        .more {
+            position: absolute;
+            padding-left: 10px;
+            width: 90px;
+            height: 40px;
+            background: rgba(255, 255, 255, .6);
+            color: #222;
+            letter-spacing: 1px;
+            line-height: 40px;
+            text-align: center;
+            text-shadow: 0 1px 1px #fff;
+            -webkit-transition: color .5s;
+            transition: color .5s;
+            z-index: 1;
+        }
+
+            .more:before {
+                position: absolute;
+                content: '';
+                left: 0;
+                height: 40px;
+                width: 0;
+                background: #fff;
+                border-right: 10px solid #ff5346;
+                -webkit-transition: width .3s;
+                transition: width .3s;
+                z-index: -1;
+            }
+
+        .img-container > a:hover .more,
+        .img-container > a:hover .more:before {
+            width: 90px;
+            color: #ff5346;
+        }
+
+        //khac body {
+            background: #f2f2f2;
+        }
+
+        .center {
+            margin: 0 auto;
+            padding: 15px;
+            width: 720px;
+        }
+
+        h1 {
+            font-family: 'Lato', sans-serif;
+            font-weight: 700;
+        }
+
+        p {
+            font-family: 'Lato', sans-serif;
+            font-weight: 300;
+        }
+
+        .row {
+            margin-top: 48px;
+        }
+
+        .description {
+            margin-top: 24px;
+        }
+
+            .description p {
+                text-align: center;
+                font-weight: 400;
+                font-size: 16px;
+            }
+
+        /*With :after */
+        figure.test {
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+            cursor: pointer;
+        }
+
+            figure.test img {
+                width: 100%;
+                height: 100%;
+            }
+
+            figure.test figcaption {
+                position: absolute;
+                top: 50%;
+                left: 22.5%;
+                right: 22.5%;
+                width: 200px;
+                opacity: 0;
+                z-index: 1;
+                transition: all 0.8s ease-out;
+                transition-delay: 0.2s;
+            }
+
+            figure.test:after {
+                display: inline-block;
+                position: absolute;
+                content: "";
+                top: 7%;
+                left: 10%;
+                right: 10%;
+                bottom: 7%;
+                background: white;
+                opacity: 0;
+                transition: all 0.8s ease-out;
+            }
+
+            figure.test:hover:after {
+                opacity: 0.9;
+            }
+
+            figure.test:hover figcaption {
+                transform: translateY(-50%);
+                opacity: 1;
+            }
+
+        #rotate {
+            perspective: 500px;
+        }
+
+            #rotate:after {
+                transform: rotateX(90deg);
+                transition: all 0.6s ease-in-out;
+            }
+
+            #rotate:hover:after {
+                transform: rotateX(0deg);
+            }
+
+            #rotate figcaption {
+                transition: all 0.6s ease-in-out;
+                transform: translateY(-50%) rotateX(90deg);
+            }
+
+            #rotate:hover figcaption {
+                transform: translateY(-50%) rotateX(0);
+            }
+
+        /*Without :after*/
+        .frame {
+            text-align: center;
+            position: relative;
+            cursor: pointer;
+            perspective: 500px;
+        }
+
+            .frame img {
+                width: 100%;
+                height: 100%;
+            }
+
+            .frame .details {
+                width: 75%;
+                height: 80%;
+                padding: 5% 10%;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%) rotateY(90deg);
+                transform-origin: 50%;
+                background: rgba(255,255,255,0.9);
+                opacity: 0;
+                transition: all 0.4s ease-in;
+            }
+
+            .frame:hover .details {
+                transform: translate(-50%, -50%) rotateY(0deg);
+                opacity: 1;
+            }
+
+            /*Effect without Perspective*/
+            .frame#wth {
+                perspective: none;
+            }
+
+        //nut tro len body {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 20px;
+        }
+
+        #myBtn {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 30px;
+            z-index: 99;
+            font-size: 18px;
+            border: none;
+            outline: none;
+            background-color: red;
+            color: white;
+            cursor: pointer;
+            padding: 15px;
+            border-radius: 4px;
+        }
+
+            #myBtn:hover {
+                background-color: #555;
+            }
+
+        //hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh body {
+            font-family: 'Roboto', sans-serif;
+            width: 100%;
+            margin: 0;
+        }
+
+
+        .threeholder {
+            position: relative;
+            margin-top: 0px;
+            width: 800px;
+            height: 280px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .threeone {
+            display: inline-block;
+            width: 33.33333333333%;
+            height: 100%;
+            background: #363636;
+            border-bottom: 15px solid #f5cb22;
+            text-align: center;
+            transition: all 0.25s;
+        }
+
+        .threetwo {
+            display: inline-block;
+            width: 33.333333333%;
+            height: 100%;
+            background: #333333;
+            border-bottom: 15px solid #f5cb22;
+            transition: all 0.25s;
+        }
+
+        .threethree {
+            display: inline-block;
+            width: 33.333333333%;
+            height: 100%;
+            background: #363636;
+            border-bottom: 15px solid #f5cb22;
+            transition: all 0.25s;
+        }
+
+        .threeone:hover {
+            background: #f5cb22;
+        }
+
+            .threeone:hover .circlepic {
+                background: #5c5c5c;
+            }
+
+            .threeone:hover .circleborder {
+                background: #333333;
+            }
+
+            .threeone:hover svg {
+                fill: #f5cb22;
+            }
+
+        .threeholder h4 {
+            width: 200px;
+            text-align: center;
+            font-size: 13px;
+            margin-left: -55px;
+            font-weight: bold;
+            margin-top: 45px;
+            text-align: center;
+            color: white;
+        }
+
+        .threeholder p {
+            display: inline-block;
+            width: 200px;
+            text-align: center;
+            margin-left: -55px;
+            margin-top: 20px;
+            font-size: 12px;
+            color: #8a8a8a;
+            letter-spacing: 1px;
+        }
+
+        .threeone:hover h4 {
+            color: black;
+        }
+
+        .threetwo:hover h4 {
+            color: black;
+        }
+
+        .threethree:hover h4 {
+            color: black;
+        }
+
+        .threeone:hover svg, .threetwo:hover svg, .threethree:hover svg {
+            transition: all 0.65s;
+            transform: rotateY(360deg);
+        }
+
+        .threetwo:hover {
+            background: #f5cb22;
+        }
+
+            .threetwo:hover .circleborder {
+                background: #333333;
+            }
+
+            .threetwo:hover svg {
+                fill: #f5cb22;
+            }
+
+        .threethree:hover {
+            background: #f5cb22;
+        }
+
+            .threethree:hover .circleborder {
+                background: #333333;
+            }
+
+            .threethree:hover svg {
+                fill: #f5cb22;
+            }
+
+        .circleborder {
+            position: absolute;
+            top: 30px;
+            width: 90px;
+            height: 90px;
+            background: #f5cb22;
+            margin-left: 88.33333px;
+            border-radius: 50%;
+        }
+
+        .circlepic {
+            position: absolute;
+            top: -10px;
+            margin-top: 30px;
+            width: 110px;
+            height: 110px;
+            background: #5c5c5c;
+            margin-left: 78.33333px;
+            border-radius: 50%;
+        }
+    </style>
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success" style="font-family:Arial">
+        <div class="container-fluid">
+            <a href="/home/index" class="navbar-brand" style="font-family:Brush Script MT">TTD.com</a>
+            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="navbar-nav">
+                    <a href="/home/GioiThieu" class="nav-item nav-link"><b>GIỚI THIỆU</b></a>
+                    <a href="/home/ChuyenNganhVaDichVu" class="nav-item nav-link"><b>CHUYÊN NGÀNH - DỊCH VỤ</b></a>
+                    <a href="/home/BacSi" class="nav-item nav-link"><b>BÁC SĨ</b></a>
+                    <a href="/home/NhiKhoa" class="nav-item nav-link"><b>NHI KHOA</b></a>
+                    <a href="/home/SieuAm" class="nav-item nav-link"><b>SIÊU ÂM</b></a>
+                    <a href="/home/ChupXQuang" class="nav-item nav-link"><b>CHỤP X QUANG</b></a>
+                    <a href="/home/HeThongPK" class="nav-item nav-link"><b>HỆ THỐNG PHÒNG KHÁM</b></a>
+                </div>
+                <div class="navbar-nav ms-auto">
+                    <a href="/home/HoTroTV" class="nav-item nav-link"><b>HỖ TRỢ TƯ VẤN</b></a>
+
+
+                </div>
+            </div>
+        </div>
+    </nav>
+    <marquee><h5 class="text-danger">Phòng khám TTD là đơn vị đầu tiên cung cấp dịch vụ dành riêng cho nhi khoa, với hệ thống phòng khám quy mô lớn nhất TP. HCM.</h5></marquee>
+
+    <div class="p-5 my-4 bg-light rounded-3 text-primary">
+        <img src="https://www.umcclinic.com.vn/Data/Sites/1/News/82/layer-597.png" class="w-100" width="80" height="450">
+        <h1 class="text-primary">GIỚI THIỆU VỀ PHÒNG KHÁM TTD </h1>
+        <p class="lead text-black" style="font-size:18px">
+            Hệ Thống Phòng Khám TTD cung cấp dịch vụ nhi khoa toàn diện bao gồm: khám bệnh (khám tổng quát và khám chuyên khoa); dịch vụ xét nghiệm, tiêm ngừa; tư vấn dinh dưỡng, theo dõi sự tăng trưởng và phát triển của trẻ từ sơ sinh, nhũ nhi đến độ tuổi nhi đồng, thiếu niên.
+
+            <br />Khi khám chữa bệnh cho bé tại Hệ Thống Phòng Khám TTD, các bác sĩ sẽ trực tiếp tư vấn các bài kiểm tra tổng quát, giải thích cặn kẽ kết quả xét nghiệm, chẩn đoán và có những can thiệp y học cần thiết cho bé. Giúp ba mẹ hiểu rõ tình trạng bệnh và cách điều trị để bố mẹ có thể chăm sóc bé một cách tốt nhất.
+
+            <br />Dịch vụ chăm sóc sức khỏe tận tình và chu đáo.
+            <br />Đội ngũ Bác sĩ chuyên khoa giàu kinh nghiệm đến từ Bệnh viện Nhi đồng 1, 2 và Thành Phố.
+            <br />Hệ thống cơ sở vật chất hiện đại theo tiêu chuẩn Quốc tế.
+            <h1 class="text-primary">THÔNG TIN CHUNG</h1>
+        <p class="lead text-black" style="font-size:18px">
+            <br />
+            TRỤ SỞ CHÍNH: 140 Lê Trọng Tấn, phường Tây Thạnh, quận Tân Phú, Thành phố Hồ Chí Minh
+            <br /> CHI NHÁNH BẾN TRE: 245 Đại lộ Đồng Khởi, phường Phú Khương, TP Bến Tre, tỉnh Bến Tre
+            <br />
+            HOTLINE: 090.090.0909
+            <br />
+            EMAIL: ttd2001@gmail.com
+            <h1 class="text-primary">TẦM NHÌN VÀ SỨ MỆNH </h1>
+            <h3 class="text-primary">TẦM NHÌN </h3>
+<p class="lead text-black" style="font-size:18px">
+            Chúng tôi cập nhật kiến thức và kỹ thuật y học tiên tiến, thông qua việc hợp tác chuyên môn với các bệnh viện danh tiếng trong và ngoài nước.
+
+            <br />Chúng tôi phấn đấu trở thành một trong những bệnh viện đi đầu về các hoạt động y tế hướng về cộng đồng.
+
+            <br />Tập thể y bác sĩ tại bệnh viện quốc tế Minh Anh sẽ xây dựng nên một bản sắc văn hoá riêng, trở thành một ngôi nhà y khoa - nơi mà toàn thể nhân viên đồng lòng xây dựng, cống hiến và tự hào về môi trường làm việc hiện đại, chuyên nghiệp và đoàn kết.
+
+            <h3 class="text-primary">SỨ MỆNH </h3>
+        <p class="lead text-black" style="font-size:18px">
+            Phòng Khám TTD lấy bệnh nhân làm trung tâm cho mọi hoạt động, chúng tôi cam kết nâng cao chất lượng cuộc sống thông qua việc chăm sóc sức khoẻ toàn diện. Bệnh viện hướng đến việc xây dựng hình ảnh một cơ sở y tế thân thiện, gần gũi, giúp quý vị cảm thấy yên tâm như chính ngôi nhà của mình.
+        
+
+</div>
+
+    <hr>
+    <footer>
+        <div class="row">
+            <div class="col-md-6">
+                <p>
+                    <h4>HỆ THỐNG PHÒNG KHÁM TTD</h4>
+                    <br /> Phòng khám TTD luôn luôn sẵn sàng phục vụ khách hàng tận tâm. Lấy uy tín lên hàng đầu.
+                    <br />
+                    ĐỊA CHỈ: 140 Lê Trọng Tấn, phường Tây Thạnh, quận Tân Phú, Thành phố Hồ Chí Minh
+                    <br />
+                    HOTLINE: 090.090.0909
+                    <br />
+                    EMAIL: ttd2001@gmail.com
+                </p>
+
+            </div>
+            <div class="zalo-chat-widget" data-oaid="1594015000153980987" data-welcome-message="Rất vui khi được hỗ trợ bạn!" data-autopopup="0" data-width="" data-height=""></div>
+
+            <script src="https://sp.zalo.me/plugins/sdk.js"></script>
+            <div class="col-md-6">
+                @*<a href="#" class="text-dark">Bản đồ</a>*@
+
+                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3919.0581139273195!2d106.62755585055223!3d10.806861137845743!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752be27d8b4f4d%3A0x92dcba2950430867!2zVHLGsOG7nW5nIMSQ4bqhaSBo4buNYyBDw7RuZyBuZ2hp4buHcCBUaOG7sWMgcGjhuqltIFRQLkhDTQ!5e0!3m2!1svi!2s!4v1668506727642!5m2!1svi!2s" width="300" height="200" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                @*<span class="text-muted mx-2">|</span>
+                    <a href="#" class="text-dark">Lịch sử</a>*@
+                <div class="fb-page" data-href="https://www.facebook.com/profile.php?id=100088049042486" data-tabs="timeline" data-width="300" data-height="200" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/profile.php?id=100088049042486" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/profile.php?id=100088049042486">Phòng khám Nhi khoa</a></blockquote></div>
+            </div>
+        </div>
+
+    </footer>
+    <button onclick="topFunction()" id="myBtn" title="Go to top">↑</button>
+
+    <script>
+        // Get the button
+        let mybutton = document.getElementById("myBtn");
+
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function () { scrollFunction() };
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                mybutton.style.display = "block";
+            } else {
+                mybutton.style.display = "none";
+            }
+        }
+
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+    </script>
+
+
+
+
+    </div>
+
+    <div>
+        @*@RenderBody()*@
+    </div>
+
+</body>
+</html>
+
+
